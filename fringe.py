@@ -1,11 +1,13 @@
 import json
 from datetime import datetime
 from flask import Flask
+#from werkzeug.contrib.fixers import ProxyFix
 
 
 events = []
 venues = []
 app = Flask(__name__)
+#app.wsgi_app = ProxyFix(app.wsgi_app)
 
 def load_files():
     global events, venues
@@ -65,11 +67,15 @@ def get_next(number):
 def get_venue(venue):
     return json.dumps(venues[venue])
 
+@app.route('/')
+def hello():
+    return "Hello World"
+
 def main():
     load_files()
 
     app.debug = True
-    app.run()
+    app.run(port=8000)
 
 if __name__ == "__main__":
     main()
