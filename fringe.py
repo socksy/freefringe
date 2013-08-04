@@ -1,9 +1,11 @@
 import json
 from datetime import datetime
+from flask import Flask
 
 
 events = []
 venues = []
+app = Flask(__name__)
 
 def load_files():
     global events, venues
@@ -45,8 +47,29 @@ def get_event_location(event):
 
     return (name, latitude, longitude)
 
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, datetime):
+            return str(o)
+        else:
+            return json.JSONEncoder.default(str, o)
+
+@app.route('/next/<int:number>')
+def get_next(number):
+    if number:
+        return json.dumps(get_next_events(number), cls=JSONEncoder)
+    else:
+        return json.dumps(get_next_events(), cls=JSONEncoder)
+
+@app.route('/venue/<int:venue>')
+def get_venue(venue):
+    return json.dumps(venues[venue])
+
 def main():
     load_files()
+
+    app.debug = True
+    app.run()
 
 if __name__ == "__main__":
     main()
