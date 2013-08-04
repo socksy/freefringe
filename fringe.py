@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from flask import Flask
+from flask import Flask, render_template
 #from werkzeug.contrib.fixers import ProxyFix
 
 
@@ -69,7 +69,7 @@ def get_venue(venue):
 
 @app.route('/')
 def hello():
-    return "Hello World"
+    return render_template('index.html')
 
 def main():
     load_files()
