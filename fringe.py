@@ -5,7 +5,7 @@ from flask import Flask
 
 
 events = []
-venues = []
+venues = [None] * 380
 app = Flask(__name__)
 #app.wsgi_app = ProxyFix(app.wsgi_app)
 
@@ -15,7 +15,7 @@ def load_files():
     with open ('officialvenues.json') as f:
         data=json.load(f)
         for v in data:
-            venues.insert(int(v['number']), v)
+            venues[int(v['number'])] = v
     with open ('events.json') as f:
         events = json.load(f)
         for e in events:
