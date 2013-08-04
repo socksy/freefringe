@@ -73,6 +73,7 @@ class EventJSONEncoder(json.JSONEncoder):
 class Event:
     def __init__(self, title, genre, description, location, date, time):
         self.title = title
+        self.genre = genre
         self.description = description
         self.location = location
         if len(time) < 7:
