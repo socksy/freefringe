@@ -3,6 +3,7 @@ from __future__ import print_function
 import json
 import requests
 import re
+from sys import stdout
 from difflib import get_close_matches
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -42,14 +43,19 @@ def main():
                  str(event_li))
         time = matchings.group(1)
         genre = matchings.group(3)
-        venue = matchings.group(5)
+        #terribly inefficient
+        venue = lookup_venue(matchings.group(5))['number']
         date = lookup_date(event_li)
         events.append(Event(title, genre, description, venue, date, time))
-    json.dumps(events, cls=EventJSONEncoder)
+
+    #write out to a file
+    with open('events.json', 'w') as f:
+        json.dump(events, f, cls=EventJSONEncoder)
 
 def lookup_date(event_tag):
     #incredibly inefficient to do this per object...
     print('.', end='')
+    stdout.flush()
     for sibling in event_tag.previous_siblings:
         try:
             if sibling.name == 'h2':
@@ -59,7 +65,10 @@ def lookup_date(event_tag):
 
 class EventJSONEncoder(json.JSONEncoder):
     def default(self, o):
-        return o.__dict__
+        if isinstance(o, Event):
+            return o.__dict__
+        else:
+            return str(o)
 
 class Event:
     def __init__(self, title, genre, description, location, date, time):
