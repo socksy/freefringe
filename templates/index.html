@@ -51,11 +51,11 @@
 
 		function updatePage() {
 			$('#shows').empty();
-			$.getJSON('/next/5', function(data) {
+			$.getJSON('/next/15', function(data) {
 				$.each(data, function (index, item) {
 					getVenue(item.location, function (item2) {
 						console.log(item2)
-						$('#shows').append("<li><h1>"+item.title+"</h1> <em>"+item.time+"</em><br>"
+						$('#shows').append("<li><h1>"+item.title+"</h1><h2>"+item.genre+"</h2> <em>"+item.time+"</em><br>"
 						+'Where you can find at <a href="geo:'+item2.lat+','+item2.lng+'">'+item2.name+'</a><br>('
 						+getDistanceFromLatLonInKm(curLat, curLong, item2.lat, item2.lng)+'km from you)');
 						 
