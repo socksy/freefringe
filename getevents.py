@@ -84,6 +84,8 @@ class Event:
             else:
                 hour = int(time[:2]) + 12
         else:
+            if '12' in time[:2]:
+                hour = int(time[:2]) - 12
             hour = time[:2]
         minutes = time[3:5]
         day = re.search('\d\d', date).group(0)

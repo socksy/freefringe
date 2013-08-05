@@ -57,9 +57,9 @@
 				$.each(data, function (index, item) {
 					getVenue(item.location, function (item2) {
 						console.log(item2)
-						$('#shows').append("<li><h1>"+item.title+"</h1><h2>"+item.genre+"</h2> <em>"+item.time+"</em><br>"
+						$('#shows').append("<div id=\"event\"" + index+" class=\"panel\"><dt><h1>"+item.title+"</h1></dt><span class=\"muted\"><h2>"+item.genre+"</h2></span> <em>"+item.time+"</em><br>"
 						+'Where you can find at <a href="geo:'+item2.lat+','+item2.lng+'">'+item2.name+'</a><br>('
-						+getDistanceFromLatLonInKm(curLat, curLong, item2.lat, item2.lng)+'km from you)');
+						+getDistanceFromLatLonInKm(curLat, curLong, item2.lat, item2.lng)+'km from you)</div>');
 						 
 					});
 				});
